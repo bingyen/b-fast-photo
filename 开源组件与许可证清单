@@ -1,0 +1,136 @@
+# B-FAST PHOTO EDIT STUDIO 开源组件与许可证清单
+
+本文档按 B-FAST PHOTO EDIT STUDIO v47 的源码、资源目录和打包环境整理，用于 GitHub 说明与发布前许可证检查。它不是法律意见；实际发布时应以每个上游项目随附的完整许可证文本及取得资源时接受的协议为准。
+
+## 重要结论
+
+1. 当前项目根目录没有 B-FAST 自有代码的 `LICENSE`，因此不能仅凭第三方组件的许可证宣称“整个软件是 MIT／Apache 开源软件”。在作者添加许可证前，自有代码默认保留所有权利。
+2. PPR10K 仓库代码标示为 Apache-2.0，但其数据集协议明确限定数据文件仅供非商业研究，并禁止商业利用。项目当前的 PPR10K 预训练权重来自数据集下载区，应按非商业限制谨慎发布与使用。
+3. Deep White-Balance 代码／模型采用 CC BY-NC-SA 4.0；项目内 NOTICE 已明确白平衡组件仅限非商业使用。
+4. PixelFree SDK、桥接 DLL、授权文件及模型资源不是开源组件。公开上传或打包再分发前，必须确认 PixelFree 授权条款。
+5. 三个内置 LUT 的许可证在当前项目内没有记录，不能自动当作开源资源公开。
+
+## AI、模型与图像处理组件
+
+| 组件 | 本项目用途 | 来源 | 许可证／限制 | 本地位置 |
+| --- | --- | --- | --- | --- |
+| PPR10K | AI 自动修图，专家 A／B／C 与 GLC | [csjliang/PPR10K](https://github.com/csjliang/PPR10K) | 仓库代码 Apache-2.0；数据集文件仅限非商业研究。预训练权重来自数据下载区，建议按数据协议管理 | `models/pretrained_models/`、`pprstudio/ppr10k_backend.py` |
+| Deep White-Balance Editing | 一键白平衡 | [mahmoudnafifi/Deep_White_Balance](https://github.com/mahmoudnafifi/Deep_White_Balance) | CC BY-NC-SA 4.0；要求署名、非商业、相同方式共享 | `assets/white_balance/`、`pprstudio/white_balance_backend.py` |
+| FFDNet／KAIR | 彩色照片降噪 | [cszn/KAIR](https://github.com/cszn/KAIR) | MIT | `assets/denoise/`、`pprstudio/denoise_backend.py` |
+| YuNet | 人脸检测 | [OpenCV Zoo / YuNet](https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet) | 该目录文件为 MIT | `assets/face_detection/`、`pprstudio/face_analysis*.py` |
+| Sky-Segmentation-and-Post-processing | 天空分割与 MASK | [xiongzhu666/Sky-Segmentation-and-Post-processing](https://github.com/xiongzhu666/Sky-Segmentation-and-Post-processing) | MIT | `assets/sky_segmentation/`、`pprstudio/sky_backend.py` |
+
+项目已经保存的第三方声明：
+
+- `assets/white_balance/NOTICE.txt`
+- `assets/denoise/NOTICE.txt`
+- `assets/raw_support/NOTICE.txt`
+- `assets/sky_segmentation/LICENSE`
+
+发布时应保留这些文件，并按许可证要求补齐所有适用的版权及许可证文本。
+
+## Python 与原生运行组件
+
+下表版本来自制作 v47 EXE 时使用的本地虚拟环境；若重新安装，实际版本可能变化。
+
+| 包／组件 | v47 构建环境版本 | 用途 | 许可证概要 | 项目 |
+| --- | ---: | --- | --- | --- |
+| Python | 3.x | 程序运行环境 | PSF License | [python.org](https://www.python.org/) |
+| NumPy | 2.5.1 | 数组、色彩与图像计算 | 核心为 BSD-3-Clause；发行包还包含 0BSD、MIT、Zlib、CC0 等第三方许可 | [numpy/numpy](https://github.com/numpy/numpy) |
+| Pillow | 12.3.0 | 常规图片读取、缩放与保存 | MIT-CMU | [python-pillow/Pillow](https://github.com/python-pillow/Pillow) |
+| OpenCV Python | 5.0.0.93 | 人脸、线条、几何及图像处理 | Apache-2.0 | [opencv/opencv-python](https://github.com/opencv/opencv-python) |
+| rawpy | 0.27.0 | Python RAW 解码接口 | MIT | [letmaik/rawpy](https://github.com/letmaik/rawpy) |
+| LibRaw | 0.22.1（由 rawpy 使用） | 相机 RAW 解码 | LGPL-2.1 或 CDDL-1.0 双许可证 | [LibRaw](https://www.libraw.org/) |
+| PyTorch | 2.13.0 | PPR10K、白平衡与 FFDNet 推理 | 发行包包含 Apache-2.0、BSD、MIT、BSL 等多项第三方许可 | [pytorch/pytorch](https://github.com/pytorch/pytorch) |
+| NCNN Python | 1.0.20260526 | 天空分割推理 | BSD-3-Clause | [Tencent/ncnn](https://github.com/Tencent/ncnn) |
+| PyInstaller | 6.21.0 | 构建单文件 Windows EXE | GPL-2.0-or-later，并带允许分发非自由程序的特殊 bootloader 例外 | [pyinstaller/pyinstaller](https://github.com/pyinstaller/pyinstaller) |
+
+注意：Python wheel 可能捆绑额外运行库。正式发布 EXE 时，应从最终构建环境生成完整依赖清单，并收集 wheel 内的 `LICENSE`、`COPYING` 与 `NOTICE`，而不能只依赖本表。
+
+## 非开源或许可证待确认的资源
+
+### PixelFree
+
+项目包含：
+
+- `pixelfree_native/build/bin/Release/PixelFreeBridge.dll`
+- `pixelfree_native/res/pixelfreeAuth.lic`
+- `pixelfree_native/res/filter_model.bundle`
+- PixelFree SDK 的 `.lib`、头文件或其他资源
+
+这些资源不属于上述开源许可证。尤其 `pixelfreeAuth.lic` 可能是与设备、账号或客户绑定的授权文件，不应上传到公开 GitHub 仓库。只有在 PixelFree 许可明确允许再分发时，才可以放进公开 Release 的 EXE。
+
+### 内置 LUT
+
+当前内置：
+
+- `Boutique-LUTs-021.cube`
+- `Movie.cube`
+- `Portrait 160.cube`
+
+项目目录中没有找到它们的来源及许可证证明。发布者需要确认自己拥有复制、修改、嵌入 EXE 和公开分发这些 LUT 的权利；否则应从公开仓库与公开构建中移除，由使用者自行加载合法 LUT。
+
+### B-FAST 品牌资源
+
+软件名称、图标与自有 UI／业务代码属于 B-FAST 项目作者。若希望开放源码，请另行选择适合的许可证；若不希望他人复制或商用，应在根目录增加明确的专有许可或“保留所有权利”声明。
+
+## GitHub 公开仓库建议
+
+公开前建议让 `.gitignore` 排除：
+
+```gitignore
+# 构建与缓存
+.venv/
+build/
+dist/
+__pycache__/
+*.pyc
+
+# 用户项目与输出
+*.bfastproj
+Retouched/
+exports/
+
+# 授权、闭源 SDK 与待确认资源
+pixelfree_native/res/*.lic
+pixelfree_native/res/*.bundle
+pixelfree_native/build/
+*.dll
+*.lib
+
+# 大型模型；确认许可证后改用 Release 或 Git LFS
+*.pth
+*.onnx
+*.bin
+```
+
+如果公开仓库的目标是展示源码，但暂时不公开模型，可以保留目录结构和下载说明，让使用者自行取得有权使用的权重。GitHub Releases 中的 EXE 也属于“再分发”，不能因为文件被打包进单文件程序就忽略上游授权。
+
+## 推荐的发布分层
+
+| 发布内容 | 建议 |
+| --- | --- |
+| GitHub 源码仓库 | 放自有源码、README、公开许可组件的声明；排除授权文件、个人照片和没有分发权的资源 |
+| GitHub Releases | 只上传经过完整授权审查的 EXE；附第三方 NOTICE 与版本说明 |
+| 研究用途构建 | 明确标注“仅限非商业研究”，并保留 PPR10K 与 Deep White-Balance 的署名和限制 |
+| 商业构建 | 替换或重新授权所有非商业组件，并取得 PixelFree 与 LUT 的商业再分发许可 |
+
+## 上游引用
+
+使用相关研究成果时，请按上游仓库要求引用原论文。至少包括：
+
+- Jie Liang 等，PPR10K，CVPR 2021。
+- Mahmoud Afifi 与 Michael S. Brown，Deep White-Balance Editing，CVPR 2020。
+- Kai Zhang、Wangmeng Zuo、Lei Zhang，FFDNet，IEEE TIP 2018。
+- Wei Wu、Hanyang Peng、Shiqi Yu，YuNet，Machine Intelligence Research 2023。
+
+## 维护方式
+
+每次升级依赖、替换模型或发布新 EXE 时，应同步更新：
+
+1. 组件名称、来源链接和准确版本。
+2. 完整许可证文件与版权声明。
+3. 模型权重、数据集、SDK 和 LUT 的使用范围。
+4. 最终 EXE 中实际包含的二进制与资源。
+5. 商业使用和再分发是否获得书面许可。
+
