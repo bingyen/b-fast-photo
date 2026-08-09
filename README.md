@@ -1,10 +1,6 @@
 # B-FAST PHOTO EDIT STUDIO
 
 <p align="center">
-  <img src="assets/branding/bfast_icon_v26.png" alt="B-FAST PHOTO EDIT STUDIO" width="120">
-</p>
-
-<p align="center">
   面向活动摄影与大批量交付场景的 Windows 本地 AI 修图工作站
 </p>
 
