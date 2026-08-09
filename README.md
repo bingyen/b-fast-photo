@@ -1,6 +1,7 @@
 # B-FAST PHOTO EDIT STUDIO
 
 一款为活动摄影师设计的 Windows AI 批量修图软件。
+
 <img width="2540" height="1654" alt="image" src="https://github.com/user-attachments/assets/697d62ef-c40b-4bd6-81a5-3fb5244ce564" />
 
 
