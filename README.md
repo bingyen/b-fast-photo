@@ -7,7 +7,7 @@
 
 ## ⬇️ 直接下载最新版
 
-### [点击下载 B-FAST PHOTO EDIT STUDIO v53（Windows EXE）](https://github.com/bingyen/b-fast-photo/releases/)
+### [点击下载 B-FAST PHOTO EDIT STUDIO v54（Windows EXE）](https://github.com/bingyen/b-fast-photo/releases/)
 
 普通用户只需要下载上面的 EXE，不需要安装 Python，也不需要另外下载 AI 权重。
 
